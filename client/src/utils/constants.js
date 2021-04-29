@@ -4,4 +4,10 @@ const TextStrings = {
   Amount: "Selecione a quantidade",
 };
 
-export default TextStrings;
+const Profitability = {
+  GREAT: "Ótima",
+  GOOD: "Boa",
+  BAD: "Ruim",
+};
+
+export default { TextStrings, Profitability };
