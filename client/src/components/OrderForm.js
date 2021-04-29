@@ -11,6 +11,10 @@ import DropDownText from "./DropdownText.js";
 
 import { useStyles } from "../styles.js";
 
+import priceValidator from "../services/priceValidator";
+import amountValidator from "../services/amountValidator";
+import computeProfitability from "../services/profitability";
+
 export default function OrderForm({
   customer,
   handleChangeCustomer,
@@ -21,6 +25,7 @@ export default function OrderForm({
   handleChangePrice,
   amount,
   handleChangeAmount,
+  handleClickButton,
 }) {
   const classes = useStyles({});
 
@@ -54,6 +59,8 @@ export default function OrderForm({
             id="standard-adornment-amount"
             value={product.price}
             onChange={handleChangePrice}
+            error={priceValidator(product.price) ? false : true}
+            helperText={priceValidator(product.price) ? "" : "Preço Inválido"}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">$</InputAdornment>
@@ -64,25 +71,32 @@ export default function OrderForm({
           <TextField
             className={classes.textField}
             id="text-amount"
-            label={constants.Amount}
+            label="Quantidade"
             value={amount}
+            error={amountValidator(product, amount) ? false : true}
+            helperText={
+              amountValidator(product, amount) ? "" : "Quantidade Inválida"
+            }
             onChange={handleChangeAmount}
           ></TextField>
 
           <Typography
             component="h6"
             variant="body1"
-            align="center"
-            className={classes.button}
+            align="left"
+            className={classes.textField}
           >
-            SEU PEDIDO FOI ...
+            Rentabilidade {computeProfitability(product.price, product.price)}
           </Typography>
+
           <Button
             variant="contained"
             color="primary"
+            //disabled={handleEnableButton}
             className={classes.button}
+            onClick={handleClickButton}
           >
-            Criar Pedido
+            Inserir Produto
           </Button>
         </div>
       ) : null}

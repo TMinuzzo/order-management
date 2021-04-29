@@ -10,6 +10,12 @@ import OrderForm from "./components/OrderForm.js";
 
 import { useStyles } from "./styles.js";
 
+import priceValidator from "./services/priceValidator";
+import amountValidator from "./services/amountValidator.js";
+import computeProfitability from "./services/profitability.js";
+import constants from "./utils/constants.js";
+import SuccessMessage from "./components/SuccessMessage.js";
+
 export default function Order(props) {
   const classes = useStyles(props);
 
@@ -21,6 +27,8 @@ export default function Order(props) {
   const [product, setProduct] = useState({});
 
   const [amount, setAmount] = useState(0);
+
+  const [addedProduct, setAddedProduct] = useState(false);
 
   useEffect(() => {
     axios
@@ -49,10 +57,27 @@ export default function Order(props) {
     setProduct(productObj);
   };
 
+  const handleEnabledButton = () => {
+    console.log("enable or disable");
+    if (
+      priceValidator(product.price) &&
+      amountValidator(product, amount) &&
+      computeProfitability(product.price, product.price) !== constants.BAD
+    )
+      return true;
+
+    return false;
+  };
+
+  const handleClickButton = () => {
+    setAddedProduct(!addedProduct);
+  };
+
   const handleChangePrice = (event) => {
     // function here to return rentability
-    console.log("event", event.target.value);
+    //if (priceValidator(event.target.value))
     setProduct({ ...product, price: event.target.value });
+    //else alert("Preço Inválido!");
   };
 
   const handleChangeAmount = (event) => {
@@ -72,17 +97,22 @@ export default function Order(props) {
       </AppBar>
       <main className={classes.layout}>
         <Paper className={classes.paper}>
-          <OrderForm
-            customer={customer}
-            handleChangeCustomer={handleChangeCustomer}
-            customers={customers}
-            product={product}
-            handleChangeProduct={handleChangeProduct}
-            products={products}
-            handleChangePrice={handleChangePrice}
-            amount={amount}
-            handleChangeAmount={handleChangeAmount}
-          />
+          {addedProduct ? (
+            <SuccessMessage handleClickButton={handleClickButton} />
+          ) : (
+            <OrderForm
+              customer={customer}
+              handleChangeCustomer={handleChangeCustomer}
+              customers={customers}
+              product={product}
+              handleChangeProduct={handleChangeProduct}
+              products={products}
+              handleChangePrice={handleChangePrice}
+              amount={amount}
+              handleChangeAmount={handleChangeAmount}
+              handleClickButton={handleClickButton}
+            />
+          )}
         </Paper>
       </main>
     </React.Fragment>
