@@ -5,12 +5,12 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 
-import { useStyles } from "./styles.js";
-
 import axios from "axios";
 import OrderForm from "./components/OrderForm.js";
 
-export default function Checkout(props) {
+import { useStyles } from "./styles.js";
+
+export default function Order(props) {
   const classes = useStyles(props);
 
   const initialValue = [{ name: " " }];
@@ -51,9 +51,8 @@ export default function Checkout(props) {
 
   const handleChangePrice = (event) => {
     // function here to return rentability
-    console.log("event", event);
-    //product.price = event.target.value;
-    //setProduct(product);
+    console.log("event", event.target.value);
+    setProduct({ ...product, price: event.target.value });
   };
 
   const handleChangeAmount = (event) => {

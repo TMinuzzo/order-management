@@ -2,17 +2,14 @@ import React from "react";
 
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import TextField from "@material-ui/core/TextField";
-import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
-
-import { useStyles } from "../styles.js";
 
 import constants from "../utils/constants";
 import DropDownText from "./DropdownText.js";
+
+import { useStyles } from "../styles.js";
 
 export default function OrderForm({
   customer,
@@ -51,17 +48,18 @@ export default function OrderForm({
             />
           </Grid>
 
-          <FormControl className={classes.textField}>
-            <InputLabel htmlFor="standard-adornment-amount">Preço</InputLabel>
-            <Input
-              id="standard-adornment-amount"
-              value={product.price}
-              onChange={handleChangePrice}
-              startAdornment={
+          <TextField
+            className={classes.textField}
+            label="Preço"
+            id="standard-adornment-amount"
+            value={product.price}
+            onChange={handleChangePrice}
+            InputProps={{
+              startAdornment: (
                 <InputAdornment position="start">$</InputAdornment>
-              }
-            />
-          </FormControl>
+              ),
+            }}
+          />
 
           <TextField
             className={classes.textField}
