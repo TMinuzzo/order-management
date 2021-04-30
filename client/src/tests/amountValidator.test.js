@@ -22,6 +22,8 @@ describe("amountValidator", () => {
 
   test("Return false for invalid amounts", () => {
     expect(amountValidator(superStarDestroyer, 0)).toBe(false);
+    expect(amountValidator(superStarDestroyer, "NaN")).toBe(false);
+    expect(amountValidator(superStarDestroyer, 5.1)).toBe(false);
     expect(amountValidator(tieFighter, 1)).toBe(false);
     expect(amountValidator(tieFighter, 3)).toBe(false);
   });

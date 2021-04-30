@@ -1,6 +1,7 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 
 import constants from "../utils/constants";
 
@@ -10,13 +11,8 @@ export default function SuccessMessage({ handleClickButton }) {
   const classes = useStyles({});
 
   return (
-    <React.Fragment>
-      <Typography
-        component="h6"
-        variant="body1"
-        align="center"
-        //className={classes.textField}
-      >
+    <Grid container direction="column" alignItems="center">
+      <Typography component="h6" variant="body1" align="center">
         {constants.TextStrings.SuccessMessage}
       </Typography>
       <Button
@@ -27,6 +23,6 @@ export default function SuccessMessage({ handleClickButton }) {
       >
         Adicionar outro Produto
       </Button>
-    </React.Fragment>
+    </Grid>
   );
 }

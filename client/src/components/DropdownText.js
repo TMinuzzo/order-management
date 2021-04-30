@@ -1,8 +1,9 @@
 import React from "react";
 
-import TextField from "@material-ui/core/TextField";
+import { FormControl, MenuItem, InputLabel, Select } from "@material-ui/core";
 
 import { useStyles } from "../styles.js";
+import constants from "../utils/constants.js";
 
 export default function DropDownText({
   value,
@@ -13,22 +14,19 @@ export default function DropDownText({
   const classes = useStyles({});
 
   return (
-    <TextField
-      className={classes.textField}
-      id="text-box-dropdown"
-      select
-      label={label}
-      value={value}
-      onChange={(e) => selectValue(e.target.value)}
-      SelectProps={{
-        native: true,
-      }}
-    >
-      {listValues.map((option) => (
-        <option key={option.name} value={option.name}>
-          {option.name}
-        </option>
-      ))}
-    </TextField>
+    <FormControl className={classes.textField}>
+      <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+      <Select
+        id="select-form"
+        value={value}
+        onChange={(e) => selectValue(e.target.value)}
+      >
+        {listValues.map((option) => (
+          <MenuItem key={option.name} value={option.name}>
+            {option.name}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
   );
 }

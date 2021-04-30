@@ -24,7 +24,12 @@ export default function Order(props) {
   const [customer, setCustomer] = useState("");
 
   const [products, setProducts] = useState(initialValue);
-  const [product, setProduct] = useState({});
+  const [product, setProduct] = useState({
+    name: "",
+    price: 0,
+    multiple: null,
+  });
+  const [price, setPrice] = useState(0);
 
   const [amount, setAmount] = useState(0);
 
@@ -54,6 +59,7 @@ export default function Order(props) {
     let productObj = products.find((e) => e.name === product);
     console.log("product", productObj);
 
+    setPrice(productObj.price);
     setProduct(productObj);
   };
 
@@ -62,7 +68,7 @@ export default function Order(props) {
     if (
       priceValidator(product.price) &&
       amountValidator(product, amount) &&
-      computeProfitability(product.price, product.price) !== constants.BAD
+      computeProfitability(price, product.price) !== constants.BAD
     )
       return true;
 
@@ -74,14 +80,10 @@ export default function Order(props) {
   };
 
   const handleChangePrice = (event) => {
-    // function here to return rentability
-    //if (priceValidator(event.target.value))
     setProduct({ ...product, price: event.target.value });
-    //else alert("Preço Inválido!");
   };
 
   const handleChangeAmount = (event) => {
-    // function to validate amount
     setAmount(event.target.value);
   };
 
@@ -105,6 +107,7 @@ export default function Order(props) {
               handleChangeCustomer={handleChangeCustomer}
               customers={customers}
               product={product}
+              originalPrice={price}
               handleChangeProduct={handleChangeProduct}
               products={products}
               handleChangePrice={handleChangePrice}

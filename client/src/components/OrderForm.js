@@ -6,7 +6,6 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
-import constants from "../utils/constants";
 import DropDownText from "./DropdownText.js";
 
 import { useStyles } from "../styles.js";
@@ -14,12 +13,14 @@ import { useStyles } from "../styles.js";
 import priceValidator from "../services/priceValidator";
 import amountValidator from "../services/amountValidator";
 import computeProfitability from "../services/profitability";
+import constants from "../utils/constants.js";
 
 export default function OrderForm({
   customer,
   handleChangeCustomer,
   customers,
   product,
+  originalPrice,
   handleChangeProduct,
   products,
   handleChangePrice,
@@ -29,8 +30,12 @@ export default function OrderForm({
 }) {
   const classes = useStyles({});
 
+  const isPriceValid = priceValidator(product.price);
+  const isAmountValid = amountValidator(product, parseInt(amount));
+  const profitability = computeProfitability(originalPrice, product.price);
+
   return (
-    <React.Fragment>
+    <Grid container>
       <Typography component="h6" variant="h4" align="left">
         Clientes
       </Typography>
@@ -38,7 +43,7 @@ export default function OrderForm({
         <DropDownText
           value={customer}
           selectValue={handleChangeCustomer}
-          label={constants.CustomerMessage}
+          label={constants.TextStrings.CustomerMessage}
           listValues={customers}
         />
       </Grid>
@@ -48,7 +53,7 @@ export default function OrderForm({
             <DropDownText
               value={product.name}
               selectValue={handleChangeProduct}
-              label={constants.ProductMessage}
+              label={constants.TextStrings.ProductMessage}
               listValues={products}
             />
           </Grid>
@@ -59,8 +64,8 @@ export default function OrderForm({
             id="standard-adornment-amount"
             value={product.price}
             onChange={handleChangePrice}
-            error={priceValidator(product.price) ? false : true}
-            helperText={priceValidator(product.price) ? "" : "Preço Inválido"}
+            error={!isPriceValid}
+            helperText={isPriceValid ? "" : constants.TextStrings.InvalidPrice}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">$</InputAdornment>
@@ -73,33 +78,43 @@ export default function OrderForm({
             id="text-amount"
             label="Quantidade"
             value={amount}
-            error={amountValidator(product, amount) ? false : true}
+            error={!isAmountValid}
             helperText={
-              amountValidator(product, amount) ? "" : "Quantidade Inválida"
+              isAmountValid ? "" : constants.TextStrings.InvalidAmount
             }
             onChange={handleChangeAmount}
           ></TextField>
-
-          <Typography
-            component="h6"
-            variant="body1"
-            align="left"
-            className={classes.textField}
-          >
-            Rentabilidade {computeProfitability(product.price, product.price)}
-          </Typography>
+          {isPriceValid ? (
+            <Typography
+              component="h6"
+              variant="body1"
+              align="left"
+              className={classes.textField}
+              color={
+                profitability == constants.Profitability.BAD
+                  ? "error"
+                  : "textPrimary"
+              }
+            >
+              Rentabilidade {profitability}
+            </Typography>
+          ) : null}
 
           <Button
             variant="contained"
             color="primary"
-            //disabled={handleEnableButton}
             className={classes.button}
             onClick={handleClickButton}
+            disabled={
+              !isPriceValid ||
+              !isAmountValid ||
+              profitability === constants.Profitability.BAD
+            }
           >
             Inserir Produto
           </Button>
         </div>
       ) : null}
-    </React.Fragment>
+    </Grid>
   );
 }
