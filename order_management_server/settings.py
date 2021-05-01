@@ -58,7 +58,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:8000'
+    '*'
 ]
 
 ROOT_URLCONF = 'order_management_server.urls'
