@@ -10,15 +10,12 @@ import OrderForm from "./components/OrderForm.js";
 
 import { useStyles } from "./styles.js";
 
-import priceValidator from "./services/priceValidator";
-import amountValidator from "./services/amountValidator.js";
-import computeProfitability from "./services/profitability.js";
-import constants from "./utils/constants.js";
 import SuccessMessage from "./components/SuccessMessage.js";
 
 export default function Order(props) {
   const classes = useStyles(props);
 
+  /* State variables section  */
   const initialValue = [{ name: " " }];
   const [customers, setCustomers] = useState(initialValue);
   const [customer, setCustomer] = useState("");
@@ -36,6 +33,7 @@ export default function Order(props) {
   const [addedProduct, setAddedProduct] = useState(false);
 
   useEffect(() => {
+    /* HTTP Request to the Django server to fetch all customers and products and saves as state variable */
     axios
       .get("/api/customers/")
       .then((res) => {
@@ -57,22 +55,9 @@ export default function Order(props) {
 
   const handleChangeProduct = (product) => {
     let productObj = products.find((e) => e.name === product);
-    console.log("product", productObj);
 
     setPrice(productObj.price);
     setProduct(productObj);
-  };
-
-  const handleEnabledButton = () => {
-    console.log("enable or disable");
-    if (
-      priceValidator(product.price) &&
-      amountValidator(product, amount) &&
-      computeProfitability(price, product.price) !== constants.BAD
-    )
-      return true;
-
-    return false;
   };
 
   const handleClickButton = () => {

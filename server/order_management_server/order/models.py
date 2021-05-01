@@ -34,6 +34,11 @@ def price_validator(price):
 
 
 def compute_profitability(product_name, price):
+    ''' Given a product name and a new price, search for the original price on database and compute the profitability
+    The Profitability is GREAT if the new price is bigger than the original
+    The Profitability is GOOD if the new price is up to 10% lower than the original
+    The Profitability is BAD if the new price is less than the original price - 10%
+    '''
     profitability = None
     original_price = Product.objects.find(name=product_name).price
     delta = price - original_price

@@ -7,6 +7,9 @@ import constants from "../utils/constants";
 
 import { useStyles } from "../styles.js";
 
+/* Presentational component that renders a SuccessMessage 
+   handleClickButton: callback function that changes the state of a state variable that controls if this component will be rendered
+*/
 export default function SuccessMessage({ handleClickButton }) {
   const classes = useStyles({});
 

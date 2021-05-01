@@ -1,3 +1,5 @@
+/* Constants file with strings used by the webpage*/
+
 const TextStrings = {
   CustomerMessage: "Selecione o Cliente",
   ProductMessage: "Selecione o Produto",
