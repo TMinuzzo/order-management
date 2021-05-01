@@ -37,14 +37,14 @@ export default function Order(props) {
 
   useEffect(() => {
     axios
-      .get("/api/customers/")
+      .get("https://order-server-management.herokuapp.com/api/customers/")
       .then((res) => {
         setCustomers(res.data);
       })
       .catch((err) => console.log("error", err));
 
     axios
-      .get("/api/products/")
+      .get("https://order-server-management.herokuapp.com/api/products/")
       .then((res) => {
         setProducts(res.data);
       })
