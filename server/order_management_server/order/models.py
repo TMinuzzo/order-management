@@ -5,6 +5,9 @@ from django.db.models.fields import CharField, DecimalField, IntegerField
 class Customer(models.Model):
     name = CharField(unique=True, max_length=100)
 
+    class Meta:
+        app_label = 'order'
+
     def _str_(self):
         return self.name
 
@@ -19,6 +22,9 @@ class Product(models.Model):
     name = CharField(unique=True, max_length=100)
     price = DecimalField(max_digits=20, decimal_places=2)
     multiple = IntegerField(blank=True, null=True)
+
+    class Meta:
+        app_label = 'order'
 
     def _str_(self):
         return self.name

@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'order_management_server.order',
+    'order_management_server.order.apps.OrderConfig',
     'corsheaders',
     'rest_framework',
 ]

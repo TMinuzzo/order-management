@@ -1,9 +1,19 @@
 from django.test import TestCase
+from django.test import Client
+
 from .models import price_validator
 
 
 class APICustomerTest(TestCase):
-    pass
+    def test_customer_view(self):
+        resp = self.client.get('/api/customers/')
+        self.assertEqual(resp.status_code, 200)
+
+
+class APIProductTest(TestCase):
+    def test_order_view(self):
+        resp = self.client.get('/api/products/')
+        self.assertEqual(resp.status_code, 200)
 
 
 class ModelCustomerTest(TestCase):
