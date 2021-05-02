@@ -28,7 +28,7 @@ You can access the server to see the persisted data throught the management cons
 - Run the django server: `python manage.py runserver`
 
 ### Running the tests
-
+- Run `python manage.py test`
 
 ## Instructions to run locally the client
 ### Installing the dependencies and running the client
